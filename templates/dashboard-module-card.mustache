@@ -1,0 +1,42 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see 
+<http://www.gnu.org/licenses/>.
+}}
+
+<div class="card dashboard-card" role="listitem" data-region="course-content" data-course-id="{{id}}">
+    <a href="{{viewurl}}" tabindex="-1">
+        <div class="card-img dashboard-card-img" style='background-image: url("{{moduleimage}}");'>
+            <span class="sr-only">Imagem do curso</span>
+        </div>
+    </a>
+    <div class="card-body pr-1 course-info-container" id="module-info-container-{{id}}-{{uniqid}}">    
+        <div class="d-flex align-items-start">
+            <a href="{{viewurl}}" class="coursename mr-2 text-truncate">
+                <span class="sr-only">Nome do módulo</span>
+                <span class="multiline">{{modulename}}</span>
+            </a>
+        </div>
+    </div>
+    <div class="card-footer dashboard-card-footer border-0 bg-white">
+        <div class="progress bg-white border">
+            <div class="progress-bar bar" role="progressbar" aria-valuenow="{{progress}}" style="width: {{progress}}%" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="small">
+            <span class="sr-only">Progresso do módulo:</span>
+            <strong>{{progress}}%</strong> Concluído
+        </div>
+    </div>
+</div>

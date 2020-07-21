@@ -1,0 +1,45 @@
+<input type="hidden" id="hd-url" value="{{page_url}}">
+<input type="hidden" id="hdf_module_id" value="{{id}}">
+<div class="panel panel panel-primary">
+  <div class="panel-heading">{{module_name}}</div>
+  <div class="panel-body">
+   <!--Conteúdo-->
+   <div class="row">
+    <!--col 1-->
+    <div class="col-md-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">Cursos en el módulo</div>
+       <div class="panel-body">
+         <select id="selected-courses" class="form-control input-block-level" multiple size="15">
+            {{#selected_courses}}
+              <option value="{{courseid}}">{{coursename}}</option>
+            {{/selected_courses}}
+          </select>
+       </div>
+    </div>
+    </div>
+     <!--col 2-->
+     <div class="col-md-2">
+      <div class="btn-group-vertical center-block" role="group">
+        <button type="button" id="btn-add" class="btn btn-primary btn-block"><< Agregar</button>
+        <button type="button" id="btn-remove" class="btn btn-default btn-block">Quitar >></button>
+    </div>
+    </div>
+     <!--col 3-->
+    <div class="col-md-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">Cursos disponibles</div>
+      <div class="panel-body">
+          <select id="available-courses"- class="form-control input-block-level" multiple size="15">
+             {{#available_courses}}
+              <option value="{{courseid}}">{{coursename}}</option>
+             {{/available_courses}}
+           </select>
+       </div>
+       </div>
+    </div>
+   </div>
+   <!--fim conteúdo-->
+  </div>
+</div>
+ 

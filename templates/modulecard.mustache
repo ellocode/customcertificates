@@ -1,0 +1,48 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see 
+<http://www.gnu.org/licenses/>.
+}}
+
+<div class="card dashboard-card" role="listitem"
+    data-region="module-content"
+    data-module-id="{{id}}">
+	<a href="{{viewurl}}" tabindex="-1">
+		<div class="card-img dashboard-card-img" style='background-image: url("{{moduleimage}}");'>
+			<span class="sr-only"></span>
+		</div>
+	</a>
+	<div class="card-body pr-1 module-info-container" id="module-info-container-{{id}}-{{uniqid}}">
+		<a href="{{viewurl}}" class="coursename mr-2">
+			<span id="favorite-icon-19-5" data-region="favourite-icon" data-module-id="19">
+				<span class="text-primary hidden" data-region="is-favourite" aria-hidden="true">
+					<img class="icon " src="http://10.0.0.113/graduacao/theme/image.php/moove/core/1583781564/i/star" alt="Starred course" title="Starred course">
+						<span class="sr-only">Course is starred</span>
+					</span>
+				</span>
+				<span class="sr-only">Course name</span>
+				<span class="multiline">{{modulename}}</span>
+			</a>
+		</div>
+		<div class="card-footer dashboard-card-footer border-0 bg-white">
+			<div class="progress bg-white border">
+				<div class="progress-bar bar" role="progressbar" aria-valuenow="{{progress}}" style="width: {{progress}}%" aria-valuemin="0" aria-valuemax="100"></div>
+			</div>
+			<div class="small">
+				<span class="sr-only">Course progress:</span>
+				<strong>{{progress}}</strong>% complete
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,17 @@
+<aside class="block-region">
+    <div class="block">
+       <h2><span class="label label-primary">{{modulename}}</span></h2>
+        <div class="content">
+            <div class="block-myoverview block-cards">
+                <div class="container-fluid p-0">
+                    <div class="card-deck dashboard-card-deck " role="list">
+                    <!--card-->
+                    {{#courses}}
+                     {{> block_custommodules/view-course-card}}
+                    {{/courses}}
+                    <!--end card-->
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
