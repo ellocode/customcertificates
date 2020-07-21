@@ -1,11 +1,11 @@
 <?php
 
-class block_custommodules_edit_form extends block_edit_form
+class block_customcertificates_edit_form extends block_edit_form
 {
 
   protected function specific_definition($mform)
   {
-    $url  =  new moodle_url('/blocks/custommodules/modulelist.php');
+    $url  =  new moodle_url('/blocks/customcertificates/certificatelist.php');
     $attributes = array('size' => '40');
 
     $has_capability = has_capability('moodle/course:update', context_system::instance());
@@ -16,7 +16,7 @@ class block_custommodules_edit_form extends block_edit_form
       $mform->addElement('html', '<div class="row">');
       $mform->addElement('html', '<div class="col-md-8"></div>');
       $mform->addElement('html', '<div class="col-md-4">');
-      $mform->addElement('html', '<a class="btn btn-primary" href=' . $url . '>' . get_string('titlemanagerbtn', 'block_custommodules') . '</a>');
+      $mform->addElement('html', '<a class="btn btn-primary" href=' . $url . '>' . get_string('managecertificates', 'block_customcertificates') . '</a>');
       $mform->addElement('html', '</div>');
       $mform->addElement('html', '</div>');
       //--//
@@ -25,8 +25,8 @@ class block_custommodules_edit_form extends block_edit_form
       $mform->addElement('html', '<div class="row">');
       $mform->addElement('html', '<div class="col-md-8">');
 
-      $mform->addElement('text', 'config_title', get_string('label_title_block', 'block_custommodules'), $attributes);
-      $mform->setDefault('config_title', get_string('default_title_block', 'block_custommodules'));
+      $mform->addElement('text', 'config_title', get_string('label_txt_default_title', 'block_customcertificates'), $attributes);
+      $mform->setDefault('config_title', get_string('defaulttitle', 'block_customcertificates'));
       $mform->setType('config_title', PARAM_TEXT);
 
       if (!empty($this->config->text)) {

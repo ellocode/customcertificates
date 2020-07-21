@@ -1,0 +1,24 @@
+<input type="hidden" id="hd-url" value="{{pageUrl}}" />
+<a href="{{createUrl}}" class="btn btn-secondary mb-2">Adicionar</a>
+<div class="container">
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Data Criação</th>
+      <th scope="col">Acões</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#certificates}}
+    <tr>
+      <th scope="row">#</th>
+      <td><a href={{viewUrl}}>{{fullname}}</a></td>
+      <td>{{timecreated}}</td>
+      <td><a href={{editUrl}}>Edit </a>|<a href={{viewUrl}}> Visualizar</a></td>
+    </tr>
+  {{/certificates}}
+  </tbody>
+</table>
+</div>

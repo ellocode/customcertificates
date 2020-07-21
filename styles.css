@@ -1,0 +1,57 @@
+body {
+	margin:0px;
+	background:#FFFFFF;
+	background-repeat:no-repeat;
+
+}
+
+#Fundo {
+	margin:0px;
+	width: 791px;
+	height:548px;	
+}
+
+#Nome {
+    box-sizing: border-box;
+    position:absolute;
+	padding-top:200px;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:20px;
+	font-weight:bold;
+	color:#0b205f;
+	width: 791px;
+	height:548px;	
+}
+
+#DataAssinatura {
+    box-sizing: border-box;
+	position: absolute;
+	padding-top:360px;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#0b205f;
+	width: 791px;
+	height:548px;	
+}
+
+#FundoVerso {
+	margin:10px 0px 0px 0px;
+	width: 791px;
+    height:548px;	
+}
+
+#Cursos {
+    box-sizing: border-box;
+	position:absolute;
+	padding-top:100px;
+	padding-left:250px;
+	text-align:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:13px;
+	line-height:17px;
+	color:#0b205f;
+	width: 791px;
+	height:548px;	
+}

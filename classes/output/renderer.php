@@ -1,6 +1,6 @@
 <?php
 
-namespace block_custommodules\output;
+namespace block_customcertificates\output;
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -11,28 +11,38 @@ class renderer extends plugin_renderer_base
     /**                                                                                                                             
      * Defer to template.                                                                                                           
      *                                                                                                                              
-     * @param listmodules_page $page                                                                                                      
+     * @param listcertificates_page $page                                                                                                      
      *                                                                                                                              
      * @return string html for the page                                                                                             
      */
-    public function render_home_page($page)
+    public function render_certificatelist_page($page)
     {
         $data = $page->export_for_template($this);
-        return parent::render_from_template('block_custommodules/dashboard-list-modules', $data);
+        return parent::render_from_template('block_customcertificates/certificatelist_page', $data);
+    }
+    public function render_certificatemodules_page($page)
+    {
+        $data = $page->export_for_template($this);
+        return parent::render_from_template('block_customcertificates/certificatemodules_page', $data);
+    }
+    public function render_certificate_page($page)
+    {
+        $data = $page->export_for_template($this);
+        return parent::render_from_template('block_customcertificates/certificate_page', $data);
     }
     public function render_view_page($page)
     {
         $data = $page->export_for_template($this);
-        return parent::render_from_template('block_custommodules/view-list-courses', $data);
+        return parent::render_from_template('block_customcertificates/view_page', $data);
     }
-    public function render_module_list_page($page)
+    public function render_certificateuser_page($page)
     {
         $data = $page->export_for_template($this);
-        return parent::render_from_template('block_custommodules/module-list-page', $data);
+        return parent::render_from_template('block_customcertificates/certificateuser_page', $data);
     }
-    public function render_modulecourses_page($page)
+    public function render_main_page($page)
     {
         $data = $page->export_for_template($this);
-        return parent::render_from_template('block_custommodules/modulecourses_page', $data);
+        return parent::render_from_template('block_customcertificates/main_page', $data);
     }
 }

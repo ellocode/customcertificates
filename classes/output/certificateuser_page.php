@@ -1,19 +1,16 @@
 <?php
 // Standard GPL and phpdocs
-namespace block_custommodules\output;
+namespace block_customcertificates\output;
+
+include_once('locallib.php');
 
 use renderable;
-use renderer_base;
 use stdClass;
 
-class module_list_page implements renderable
+class certificateuser_page implements renderable
 {
-    /** @var stdClass $sometext Some text to show how to pass data to a template. */
-    var $pageObject = null;
-
-    public function __construct($pageObject)
+    public function __construct()
     {
-        $this->pageObject = $pageObject;
     }
 
     /**                                                                                                                             
@@ -21,12 +18,18 @@ class module_list_page implements renderable
      *                                                                                                                              
      * @return stdClass                                                                                                             
      */
-    public function export_for_template(renderer_base $output)
+    public function export_for_template()
     {
         $data = new stdClass();
-        $data->pageUrl = $this->pageObject->pageUrl;
-        $data->createUrl = $this->pageObject->createUrl;
-        $data->modules = $this->pageObject->modules;
+        $certificates = get_certificates_user();
+        $data->message = get_string('nocertificatesavailable', 'block_customcertificates');
+        $data->has_certificates = false;
+        $data->certificates = array();
+        if ($certificates) {
+            $data->message = get_string('certificatesavailable', 'block_customcertificates');
+            $data->has_certificates = true;
+            $data->certificates = $certificates;
+        }
 
         return $data;
     }

@@ -22,51 +22,55 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->libdir . "/externallib.php");
 
-class blocks_custommodules_external extends external_api {
+class block_customcertificates_external extends external_api
+{
 
     //Associa cursos ao módulo 
-    public static function associate_courses_with_module_parameters() {
+    public static function associate_modules_with_certificate_parameters()
+    {
         return new external_function_parameters(array(
-            "moduleid"=>new external_value(PARAM_INT, VALUE_REQUIRED),
-            "courseids"=>new external_value(PARAM_RAW, VALUE_OPTIONAL)
+            "certificateid" => new external_value(PARAM_INT, VALUE_REQUIRED),
+            "moduleids" => new external_value(PARAM_RAW, VALUE_OPTIONAL)
         ));
     }
-    public static function associate_courses_with_module($moduleid,$courseids) {
+    public static function associate_modules_with_certificate($certificateid, $moduleids)
+    {
         global $DB;
 
-        $module = new stdclass;
-        $module->id=$moduleid;
-        $module->courseids=$courseids;
+        $certificate = new stdclass;
+        $certificate->id = $certificateid;
+        $certificate->moduleids = $moduleids;
 
-        $result=$DB->update_record("block_custommodules", $module);
-        if(!$result){
-            return "Error update module";
+        $result = $DB->update_record("block_customcertificates", $certificate);
+        if (!$result) {
+            return "Error update certificate";
         }
-        return "Success update module";
+        return "Success update certificate";
     }
-    public static function associate_courses_with_module_returns() {
-        return new external_value(PARAM_TEXT, 'Result update module');
+    public static function associate_modules_with_certificate_returns()
+    {
+        return new external_value(PARAM_TEXT, 'Result update certificate');
     }
-    //Exclui módulo
-    public static function delete_module_parameters() {
+    //Exclui certificate
+    public static function delete_certificate_parameters()
+    {
         return new external_function_parameters(array(
-            "moduleid"=>new external_value(PARAM_INT, VALUE_REQUIRED)
+            "certificateid" => new external_value(PARAM_INT, VALUE_REQUIRED)
         ));
     }
 
-    public static function delete_module($moduleid) {
+    public static function delete_certificate($certificateid)
+    {
         global $DB;
 
-        $module = new stdclass;
-        $module->id=$moduleid;
-
-        $result=$DB->delete_records("block_custommodules", array("id"=>$moduleid));
-        if(!$result){
-            return "Error delete module";
+        $result = $DB->delete_records("block_customcertificates", array("id" => $certificateid));
+        if (!$result) {
+            return "Error delete certificate";
         }
-        return "Success delete module";
+        return "Success delete certificate";
     }
-     public static function delete_module_returns() {
-        return new external_value(PARAM_TEXT, 'Result delete module');
+    public static function delete_certificate_returns()
+    {
+        return new external_value(PARAM_TEXT, 'Result delete certificate');
     }
 }

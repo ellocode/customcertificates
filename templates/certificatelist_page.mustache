@@ -1,0 +1,29 @@
+<input type="hidden" id="hd-url" value="{{pageUrl}}" />
+<a href="{{createUrl}}" class="btn btn-primary mb-2">Adicionar</a>
+<div class="no-overflow">
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Data Criação</th>
+      <th scope="col">Acões</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#certificates}}
+    <tr>
+      <th scope="row">#</th>
+      <td><a href={{viewUrl}}>{{fullname}}</a></td>
+      <td>{{timecreated}}</td>
+      <td>
+        <a href={{editUrl}}><span class="glyphicon glyphicon-pencil" data-certificateid="{{id}}" aria-hidden="true"></a> |
+        <a href={{modulesUrl}}><span class="glyphicon glyphicon-folder-open" data-certificateid="{{id}}" aria-hidden="true"></span></a> |
+        <a href={{viewUrl}}><span class="glyphicon glyphicon-eye-open" data-certificateid="{{id}}" aria-hidden="true"></span></a> |
+        <a href=""><span class="glyphicon glyphicon-remove-sign delete" data-certificateid="{{id}}" aria-hidden="true"></span></a>
+      </td>
+    </tr>
+  {{/certificates}}
+  </tbody>
+</table>
+</div>

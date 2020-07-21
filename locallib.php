@@ -1,38 +1,89 @@
 <?php
+require_once($CFG->libdir . '/pdflib.php');
 
-defined('MOODLE_INTERNAL') || die();
 
-
-function get_courses_module_by_user($userid, $module)
+function get_certificates_user($certificateid = null, $print = 1)
 {
-    if (!is_null($module->courseids)) {
+    global $DB, $USER;
+    $certificates_user = [];
 
-        $courses_in_module = explode("|", $module->courseids);
-        $context = context_user::instance($userid);
-        $has_capability = has_capability('moodle/course:view',  $context);
-        $courses = [];
+    $context = context_user::instance($USER->id);
+    $has_capability = has_capability('moodle/course:view',  $context);
 
-        if ($has_capability) {
-            foreach ($courses_in_module as $courseid) {
-                $course = get_course($courseid);
-                if (!is_null($course)) {
-                    $courses[] = $course;
+    $courses_user = enrol_get_users_courses($USER->id, true, Null, 'visible DESC,sortorder ASC');
+
+    $conditions = null;
+
+    if (!is_null($certificateid)) {
+        $conditions = array("id" => $certificateid);
+    }
+
+    $certificates = $DB->get_records("block_customcertificates", $conditions);
+    //Percorre os certificados 
+    foreach ($certificates as $certificate) {
+
+        if (is_null($certificate->moduleids)) continue;
+
+        $certificate_user = new stdClass();
+        $certificate_user->id = $certificate->id;
+        $certificate_user->userid = $USER->id;
+        $certificate_user->fullname = $certificate->fullname;
+        $certificate_user->description = $certificate->description;
+        $certificate_user->name_user = $USER->firstname . " " . $USER->lastname;
+        $certificate_user->modules = [];
+        $certificate_info = new \block_customcertificates\certificate_info($certificate->id, $print);
+        $certificate_user->front_image = $certificate_info->front_image;
+        $certificate_user->verse_image  = $certificate_info->verse_image;
+        $certificate_user->viewurl = $certificate_info->get_view_url();
+        $certificate_user->local_date = $certificate_info->local_date();
+        $certificate_user->issue_date = $certificate_info->issue_date;
+
+        $moduleids = explode("|", $certificate->moduleids);
+        $countnotcomplete = 0;
+        //Percorre os modulos dos certificados  
+        foreach ($moduleids as $moduleid) {
+            $module = $DB->get_record("block_custommodules", ["id" => $moduleid]);
+            if ($module) {
+                if (is_null($module->courseids)) continue;
+
+                $module_user = new stdClass();
+                $module_user->id = $module->id;
+                $module_user->fullname = $module->fullname;
+                $module_user->courses = [];
+                $module_user->total_hours = $module->total_hours;
+
+                $courseids = explode("|", $module->courseids);
+                //Percorre os cursos dos módulos
+                foreach ($courseids as $courseid) {
+                    if ($has_capability) {
+                        $course = get_course($courseid);
+                        $module_user->courses[] = $course;
+                    } else {
+                        $course = find_course($courseid, $courses_user);
+
+                        if (!is_null($course)) {
+                            $course_info = new \block_customcertificates\certificate_course_info($course);
+                            $iscomplete =  $course_info->is_complete_course();
+                            //verifica se o curso esta completo
+                            if ($iscomplete) {
+                                $module_user->courses[] = $course;
+                            } else {
+                                $countnotcomplete++;
+                            }
+                        }
+                    }
                 }
-            }
-        } else {
-            $courses_user = enrol_get_users_courses($userid, true, null, 'visible DESC,sortorder ASC');
-            foreach ($courses_in_module as $courseid) {
-                $course = find_course_by_id($courseid, $courses_user);
-                if (!is_null($course)) {
-                    $courses[] = $course;
-                }
+                $certificate_user->modules[] = $module_user;
             }
         }
-        return $courses;
+        if ($countnotcomplete == 0) {
+            $certificates_user[] = $certificate_user;
+        }
     }
-    return null;
+    return $certificates_user;
 }
-function find_course_by_id($id, $courses)
+
+function find_course($id, $courses)
 {
     foreach ($courses as $course) {
         if ($course->id == $id) {
@@ -41,91 +92,26 @@ function find_course_by_id($id, $courses)
     }
     return null;
 }
-
-function renderable_list_modules_object()
+function save_certificate_user($certificateid, $userid, $certificate_name, $issue_date)
 {
     global $DB;
-    $pageObject = new stdClass();
-    $pageObject->createUrl = new moodle_url('/blocks/custommodules/module.php');
-    $pageObject->pageUrl = new moodle_url('/blocks/custommodules/modulelist.php');
+    $params = array("certificateid" => $certificateid, "userid" => $userid);
+    $table = "customcertificates_issues";
+    $certificate_user = $DB->get_record($table, $params);
+    if ($certificate_user) {
+        $certificate_user->version += 1;
+        $certificate_user->issuedate = $issue_date;
+        $DB->update_record($table, $certificate_user, false);
+    } else {
+        $certificate_user = array(
+            "certificateid" => $certificateid,
+            "userid" => $userid,
+            "certificate_name" => $certificate_name,
+            "version" => 1,
+            "issuedate" => $issue_date
+        );
 
-    $modules = $DB->get_records("block_custommodules");
-    $modulelist = [];
-    foreach ($modules as $module) {
-        $modulelist[] = [
-            'id' => $module->id,
-            'fullname' => $module->fullname,
-            'courses' => list_courses_by_module($module),
-            'edit_url' => new moodle_url('/blocks/custommodules/module.php?id=' . $module->id),
-            'config_url' => new moodle_url('/blocks/custommodules/modulecourses.php?id=' . $module->id)
-        ];
+
+        $DB->insert_record($table, $certificate_user, false, false);
     }
-    $pageObject->modules = $modulelist;
-    return $pageObject;
-}
-function list_courses_by_module($module)
-{
-    $courses_module = [];
-    if (!is_null($module->courseids)) {
-        $courseids = explode("|", $module->courseids);
-        $courses = get_courses('all', "c.fullname ASC");
-        foreach ($courseids as $id) {
-            $course = find_course_by_id($id, $courses);
-            if (!is_null($course)) {
-                $courses_module[] = ["id" => $course->id, "coursename" => $course->fullname];
-            }
-        }
-    }
-    if (empty($courses_module)) {
-        $courses_module[] = ["id" => 0, "coursename" => "Não há cursos neste módulo"];
-    }
-    return $courses_module;
-}
-
-function renderable_modules_courses_object($id)
-{
-    global $DB;
-    $pageObject = new stdClass();
-    $module = $DB->get_record('block_custommodules', ['id' => $id]);
-    $courseids = explode("|", $module->courseids);
-    $courses = get_courses('all', "c.fullname ASC");
-
-    $pageObject->id = $module->id;
-    $pageObject->module_name = $module->fullname;
-    $pageObject->page_url = new moodle_url('/blocks/custommodules/modulelist.php');
-    $pageObject->label_save = get_string('title_btn_edit_modules', 'block_custommodules');
-    $pageObject->label_cancel = "Cancelar";
-    $pageObject->selected_courses = [];
-    $pageObject->available_courses = [];
-
-    foreach ($courses as $course) {
-        if (in_array($course->id, $courseids, true)) {
-            $pageObject->selected_courses[] = ["courseid" => $course->id, "coursename" => $course->fullname, "checked" => "checked"];
-        } else {
-            $pageObject->available_courses[] = ["courseid" => $course->id, "coursename" => $course->fullname, "checked" => ""];
-        }
-    }
-    return $pageObject;
-}
-
-function renderable_list_courses_home_object()
-{
-    global $DB;
-    $pageObject = new stdClass();
-    $pageObject->createUrl = new moodle_url('/blocks/custommodules/module.php');
-    $pageObject->pageUrl = new moodle_url('/blocks/custommodules/modulelist.php');
-
-    $modules = $DB->get_records("block_custommodules");
-    $list_modules = [];
-    foreach ($modules as $module) {
-        $list_modules[] = [
-            'id' => $module->id,
-            'fullname' => $module->fullname,
-            'courses' => list_courses_by_module($module),
-            'edit_url' => new moodle_url('/blocks/custommodules/module.php?id=' . $module->id),
-            'config_url' => new moodle_url('/blocks/custommodules/modulecourses.php?id=' . $module->id)
-        ];
-    }
-    $pageObject->modules = $list_modules;
-    return $pageObject;
 }

@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/custommodules/db" VERSION="20191209" COMMENT="XMLDB file for Moodle blocks/custommodules"
+<XMLDB PATH="blocks/customcertificates/db" VERSION="20200429" COMMENT="XMLDB file for Moodle blocks/customcertificates"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="block_custommodules" COMMENT="Criação da base de dados para o plugin custom módules">
+    <TABLE NAME="block_customcertificates" COMMENT="Default comment for block_customcertificates, please edit me">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="fullname" TYPE="char" LENGTH="300" NOTNULL="false" SEQUENCE="false" COMMENT="Nome do modulo"/>
-        <FIELD NAME="courseids" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="Lista de ids dos cursos relacionados"/>
-        <FIELD NAME="displayorder" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Ordem de exibição dos módulos"/>
-        <FIELD NAME="description" TYPE="char" LENGTH="1300" NOTNULL="false" SEQUENCE="false" COMMENT="Descrição do módulo"/>
+        <FIELD NAME="fullname" TYPE="char" LENGTH="300" NOTNULL="false" SEQUENCE="false" COMMENT="Nome do certificado"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="descrição do certificado"/>
+        <FIELD NAME="descriptionformat" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false" COMMENT="data de criação do certificado"/>
+        <FIELD NAME="timemodified" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false" COMMENT="data de modificação do certificado"/>
+        <FIELD NAME="moduleids" TYPE="char" LENGTH="500" NOTNULL="false" SEQUENCE="false" COMMENT="Campo que recebe os ids dos módulos relacionados ao certificado"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="customcertificates_issues" COMMENT="Default comment for the table, please edit me">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="certificateid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Id do certificado"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Id do usuário que gerou o certificado"/>
+        <FIELD NAME="issuedate" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false" COMMENT="Data de emissão do certificado"/>
+        <FIELD NAME="certificate_name" TYPE="char" LENGTH="300" NOTNULL="false" SEQUENCE="false" COMMENT="Nome do certificado"/>
+        <FIELD NAME="version" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Via emitida do certificado"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

@@ -1,0 +1,23 @@
+<div id="Fundo" style="background-image: url({{front_image}});">
+
+	<div id="Nome">
+    	{{name_user}}
+    </div>
+    
+    <div id="DataAssinatura">
+    	{{local_date}}
+    </div>
+</div>
+<div id="FundoVerso" style="background-image: url({{verse_image}})">
+
+	<div id="Cursos">
+	{{#modules}}
+    	<b>{{fullname}} – Carga horária: {{total_hours}}</b>
+		<ul>
+            {{#courses}}
+			 <li>{{fullname}}</li>
+			{{/courses}}
+       </ul>    
+   {{/modules}}
+ </div>
+</div>

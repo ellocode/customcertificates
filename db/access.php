@@ -1,7 +1,7 @@
 <?php
     $capabilities = array(
  
-    'block/custommodules:myaddinstance' => array(
+    'block/customcertificates:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
@@ -11,7 +11,7 @@
         'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
  
-    'block/custommodules:addinstance' => array(
+    'block/customcertificates:addinstance' => array(
         'riskbitmask' => RISK_SPAM | RISK_XSS,
  
         'captype' => 'write',

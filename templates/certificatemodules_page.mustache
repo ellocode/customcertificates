@@ -1,7 +1,7 @@
 <input type="hidden" id="hd-url" value="{{page_url}}">
-<input type="hidden" id="hdf_module_id" value="{{id}}">
+<input type="hidden" id="hdf_certificate_id" value="{{id}}">
 <div class="panel panel panel-primary">
-  <div class="panel-heading">{{module_name}}</div>
+  <div class="panel-heading">{{cerficate_name}}</div>
   <div class="panel-body">
    <!--Conteúdo-->
    <div class="row">
@@ -10,10 +10,10 @@
     <div class="panel panel-default">
       <div class="panel-heading">Cursos en el módulo</div>
        <div class="panel-body">
-         <select id="selected-courses" class="form-control input-block-level" multiple size="15">
-            {{#selected_courses}}
-              <option value="{{courseid}}">{{coursename}}</option>
-            {{/selected_courses}}
+         <select id="selected-modules" class="form-control input-block-level" multiple size="15">
+            {{#selected_modules}}
+              <option value="{{moduleid}}">{{modulename}}</option>
+            {{/selected_modules}}
           </select>
        </div>
     </div>
@@ -30,10 +30,10 @@
     <div class="panel panel-default">
       <div class="panel-heading">Cursos disponibles</div>
       <div class="panel-body">
-          <select id="available-courses"- class="form-control input-block-level" multiple size="15">
-             {{#available_courses}}
-              <option value="{{courseid}}">{{coursename}}</option>
-             {{/available_courses}}
+          <select id="available-modules"- class="form-control input-block-level" multiple size="15">
+             {{#available_modules}}
+              <option value="{{moduleid}}">{{modulename}}</option>
+             {{/available_modules}}
            </select>
        </div>
        </div>

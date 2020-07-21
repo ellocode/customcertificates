@@ -1,0 +1,23 @@
+<p>
+  <h1>{{message}}</h1>
+</p>
+{{#has_certificates}}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Título certificado</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#certificates}}
+    <tr>
+      <th scope="row"></th>
+      <td>{{fullname}}</td>
+      <td><a class="btn btn-primary" href="{{viewurl}}" role="button">Baixar</a></td>
+    </tr>
+    {{/certificates}}
+  </tbody>
+</table>
+{{/has_certificates}}
